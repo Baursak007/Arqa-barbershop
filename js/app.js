@@ -1,0 +1,198 @@
+(function () {
+  "use strict";
+
+  var D = SITE_DATA;
+  var C = CONFIG;
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+    });
+  }
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₸"; }
+  function telHref(p) { return "tel:" + p.replace(/[^\d+]/g, ""); }
+
+  /* ---------- Простые тексты из data.js ---------- */
+  $$("[data-bind]").forEach(function (el) {
+    var key = el.getAttribute("data-bind");
+    if (D[key] != null) el.textContent = D[key];
+  });
+  $("#year").textContent = new Date().getFullYear();
+  $("#map-link").href = C.map;
+  $("#footer-map").href = C.map;
+  $("#footer-ig").href = C.instagram;
+
+  /* ---------- Филиалы и фильтр ---------- */
+  var activeDistrict = "Все";
+
+  function renderChips() {
+    $("#chips").innerHTML = D.districts.map(function (d) {
+      return '<button type="button" class="chip" data-district="' + esc(d) + '" aria-pressed="' + (d === activeDistrict) + '">' + esc(d) + "</button>";
+    }).join("");
+  }
+
+  function renderBranches() {
+    var list = D.branches.filter(function (b) {
+      return activeDistrict === "Все" || b.district === activeDistrict;
+    });
+    $("#branch-grid").innerHTML = list.map(function (b) {
+      return (
+        '<article class="branch">' +
+          "<h3>" + esc(b.name) + "</h3>" +
+          '<p class="branch-meta">' + esc(b.district) + " · " + esc(b.address) + "</p>" +
+          '<p class="branch-meta">Часы работы: ' + esc(b.hours) + "</p>" +
+          '<a class="branch-phone" href="' + telHref(b.phone) + '">' + esc(b.phone) + "</a>" +
+          '<button class="btn btn-primary btn-small" type="button" data-book data-branch="' + esc(b.name) + '">Записаться</button>' +
+        "</article>"
+      );
+    }).join("");
+  }
+
+  $("#chips").addEventListener("click", function (e) {
+    var btn = e.target.closest(".chip");
+    if (!btn) return;
+    activeDistrict = btn.getAttribute("data-district");
+    renderChips();
+    renderBranches();
+  });
+
+  /* ---------- Остальные блоки ---------- */
+  function renderIncluded() {
+    $("#included-title").textContent = D.includedTitle;
+    $("#included-text").textContent = D.includedText;
+    $("#included-list").innerHTML = D.included.map(function (i) {
+      return "<li><h3>" + esc(i.title) + "</h3><p>" + esc(i.text) + "</p></li>";
+    }).join("");
+  }
+
+  function renderOffers() {
+    $("#offers-title").textContent = D.offersTitle;
+    $("#offer-grid").innerHTML = D.offers.map(function (o) {
+      return '<article class="offer"><span class="offer-tag">' + esc(o.tag) + "</span><h3>" + esc(o.title) + "</h3><p>" + esc(o.text) + "</p></article>";
+    }).join("");
+  }
+
+  function renderWhy() {
+    $("#why-title").textContent = D.whyTitle;
+    $("#why-grid").innerHTML = D.why.map(function (w) {
+      return "<div><h3>" + esc(w.title) + "</h3><p>" + esc(w.text) + "</p></div>";
+    }).join("");
+  }
+
+  function renderPrices() {
+    $("#price-title").textContent = D.priceTitle;
+    $("#price-note").textContent = D.priceNote;
+    var head = '<thead><tr><th scope="col">Услуга</th>' + D.priceColumns.map(function (c) {
+      return '<th scope="col">' + esc(c) + "</th>";
+    }).join("") + "</tr></thead>";
+    var cols = D.priceColumns.length + 1;
+    var body = D.priceGroups.map(function (g) {
+      var rows = g.rows.map(function (r) {
+        return '<tr><td>' + esc(r.name) + "</td>" + r.prices.map(function (p) {
+          return "<td>" + money(p) + "</td>";
+        }).join("") + "</tr>";
+      }).join("");
+      return '<tbody><tr class="group"><th colspan="' + cols + '" scope="colgroup">' + esc(g.title) + "</th></tr>" + rows + "</tbody>";
+    }).join("");
+    $("#price-table").innerHTML = head + body;
+  }
+
+  /* ---------- Меню на телефоне ---------- */
+  var menuBtn = $(".menu-btn");
+  var nav = $("#nav");
+  function setMenu(open) {
+    nav.classList.toggle("is-open", open);
+    menuBtn.setAttribute("aria-expanded", String(open));
+    menuBtn.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
+  }
+  menuBtn.addEventListener("click", function () {
+    setMenu(menuBtn.getAttribute("aria-expanded") !== "true");
+  });
+  nav.addEventListener("click", function (e) {
+    if (e.target.closest("a, button")) setMenu(false);
+  });
+
+  /* ---------- Окно записи ---------- */
+  var dialog = $("#booking");
+  var form = $("#booking-form");
+  var branchSel = $("#booking-branch");
+  var serviceSel = $("#booking-service");
+  var submitBtn = $("#booking-submit");
+
+  branchSel.innerHTML = D.branches.map(function (b) {
+    return '<option value="' + esc(b.name) + '">' + esc(b.name) + "</option>";
+  }).join("");
+  serviceSel.innerHTML = D.services.map(function (s) {
+    return '<option value="' + esc(s) + '">' + esc(s) + "</option>";
+  }).join("");
+  submitBtn.textContent = C.bookingChannel === "telegram" ? "Отправить в Telegram" : "Отправить в WhatsApp";
+
+  function openBooking(branchName) {
+    if (branchName) branchSel.value = branchName;
+    clearErrors();
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else dialog.setAttribute("open", "");
+    var first = $("input[name=name]", form);
+    if (first) first.focus();
+  }
+
+  document.addEventListener("click", function (e) {
+    var trigger = e.target.closest("[data-book]");
+    if (trigger) openBooking(trigger.getAttribute("data-branch"));
+    if (e.target.closest("[data-close]")) dialog.close();
+    if (e.target === dialog) dialog.close(); // клик по затемнению
+  });
+
+  function clearErrors() {
+    $$(".field", form).forEach(function (f) { f.classList.remove("has-error"); });
+    $$("[data-error]", form).forEach(function (s) { s.textContent = ""; });
+  }
+  function showError(name, text) {
+    var small = $('[data-error="' + name + '"]', form);
+    if (!small) return;
+    small.textContent = text;
+    small.closest(".field").classList.add("has-error");
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    clearErrors();
+    var name = form.elements.name.value.trim();
+    var phone = form.elements.phone.value.trim();
+    var digits = phone.replace(/\D/g, "");
+    var ok = true;
+
+    if (name.length < 2) { showError("name", "Введите имя."); ok = false; }
+    if (digits.length < 10) { showError("phone", "Введите номер полностью, например +7 700 123 45 67."); ok = false; }
+    if (!ok) { var bad = $(".has-error input", form); if (bad) bad.focus(); return; }
+
+    var lines = [
+      "Здравствуйте! Хочу записаться.",
+      "Имя: " + name,
+      "Телефон: " + phone,
+      "Филиал: " + form.elements.branch.value,
+      "Услуга: " + form.elements.service.value,
+    ];
+    var when = form.elements.time.value.trim();
+    if (when) lines.push("Удобное время: " + when);
+    var text = encodeURIComponent(lines.join("\n"));
+
+    var url = C.bookingChannel === "telegram"
+      ? "https://t.me/" + encodeURIComponent(C.telegram) + "?text=" + text
+      : "https://wa.me/" + C.whatsapp.replace(/\D/g, "") + "?text=" + text;
+
+    window.open(url, "_blank", "noopener");
+    dialog.close();
+    form.reset();
+  });
+
+  /* ---------- Запуск ---------- */
+  renderChips();
+  renderBranches();
+  renderIncluded();
+  renderOffers();
+  renderWhy();
+  renderPrices();
+})();

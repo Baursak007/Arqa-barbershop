@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ARQA — барбершоп в Астане</title>
+  <meta name="description" content="ARQA — сеть барбершопов в Астане. Выберите ближайший филиал и запишитесь онлайн за минуту.">
+  <meta property="og:title" content="ARQA — барбершоп в Астане">
+  <meta property="og:description" content="Шесть филиалов, опытные барберы, запись онлайн.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#14202e">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;700&display=swap&subset=cyrillic" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main">К содержанию</a>
+
+<header class="site-header" id="top">
+  <div class="wrap header-inner">
+    <a class="logo" href="#top" aria-label="ARQA, на главную">
+      <span class="logo-mark" aria-hidden="true"></span>
+      <span class="logo-name" data-bind="brand">ARQA</span>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Открыть меню">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav" aria-label="Основное меню">
+      <a href="#branches">Филиалы</a>
+      <a href="#included">Что входит</a>
+      <a href="#offers">Скидки</a>
+      <a href="#prices">Цены</a>
+      <button class="btn btn-primary btn-small" type="button" data-book>Записаться</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <p class="hero-kicker" data-bind="tagline"></p>
+        <h1 data-bind="heroTitle"></h1>
+        <p class="hero-text" data-bind="heroText"></p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" type="button" data-book>Записаться онлайн</button>
+          <a class="btn btn-ghost" href="#branches">Найти филиал</a>
+        </div>
+      </div>
+      <div class="pole-wrap" aria-hidden="true">
+        <div class="pole"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="branches">
+    <div class="wrap">
+      <h2>Наши филиалы</h2>
+      <p class="section-lead">Выберите район и ближайший барбершоп, затем нажмите «Записаться».</p>
+      <div class="chips" id="chips" role="group" aria-label="Фильтр по району"></div>
+      <div class="branch-grid" id="branch-grid"></div>
+      <p class="map-link"><a id="map-link" href="#" target="_blank" rel="noopener">Все филиалы на карте</a></p>
+    </div>
+  </section>
+
+  <section class="section section-dark" id="included">
+    <div class="wrap">
+      <h2 id="included-title"></h2>
+      <p class="section-lead" id="included-text"></p>
+      <ul class="included-list" id="included-list"></ul>
+    </div>
+  </section>
+
+  <section class="section" id="offers">
+    <div class="wrap">
+      <h2 id="offers-title"></h2>
+      <div class="offer-grid" id="offer-grid"></div>
+    </div>
+  </section>
+
+  <section class="section section-tint" id="why">
+    <div class="wrap">
+      <h2 id="why-title"></h2>
+      <div class="why-grid" id="why-grid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="prices">
+    <div class="wrap">
+      <h2 id="price-title"></h2>
+      <p class="section-lead" id="price-note"></p>
+      <div class="price-scroll" tabindex="0" role="region" aria-label="Таблица цен, можно прокручивать по горизонтали">
+        <table class="price-table" id="price-table"></table>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap cta-inner">
+      <h2>Выберите удобное время и приходите</h2>
+      <button class="btn btn-primary" type="button" data-book>Записаться</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <p class="footer-brand" data-bind="brand"></p>
+      <p class="footer-text" data-bind="footerText"></p>
+    </div>
+    <p class="footer-links">
+      <a id="footer-ig" href="#" target="_blank" rel="noopener">Instagram</a>
+      <a id="footer-map" href="#" target="_blank" rel="noopener">Адреса на карте</a>
+    </p>
+    <p class="footer-copy">© <span id="year"></span> <span data-bind="brand"></span> Barbershop. Все права защищены.</p>
+  </div>
+</footer>
+
+<dialog class="modal" id="booking" aria-labelledby="booking-title">
+  <form method="dialog" class="modal-form" id="booking-form" novalidate>
+    <div class="modal-head">
+      <h2 id="booking-title">Запись на стрижку</h2>
+      <button class="modal-close" type="button" aria-label="Закрыть" data-close>×</button>
+    </div>
+
+    <label class="field">
+      <span>Имя</span>
+      <input type="text" name="name" autocomplete="given-name" required>
+      <small class="error" data-error="name"></small>
+    </label>
+
+    <label class="field">
+      <span>Телефон</span>
+      <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7" required>
+      <small class="error" data-error="phone"></small>
+    </label>
+
+    <label class="field">
+      <span>Филиал</span>
+      <select name="branch" id="booking-branch"></select>
+    </label>
+
+    <label class="field">
+      <span>Услуга</span>
+      <select name="service" id="booking-service"></select>
+    </label>
+
+    <label class="field">
+      <span>Удобное время</span>
+      <input type="text" name="time" placeholder="Например, завтра после 18:00">
+    </label>
+
+    <button class="btn btn-primary btn-block" type="submit" id="booking-submit"></button>
+    <p class="modal-note">Откроется чат, где останется нажать «Отправить». Мы подтвердим запись в течение нескольких минут.</p>
+  </form>
+</dialog>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
