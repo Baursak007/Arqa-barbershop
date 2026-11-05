@@ -3,6 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Политика безопасности: разрешены только свои скрипты и стили и шрифты Google Fonts.
+       Встроенные скрипты и чужие источники браузер заблокирует.
+       Если добавишь новый внешний ресурс (аналитику, карту, виджет), его адрес нужно добавить сюда. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>ARQA — барбершоп в Астане</title>
   <meta name="description" content="ARQA — сеть барбершопов в Астане. Выберите ближайший филиал и запишитесь онлайн за минуту.">
   <meta property="og:title" content="ARQA — барбершоп в Астане">
