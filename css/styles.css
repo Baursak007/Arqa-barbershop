@@ -272,86 +272,13 @@ h2[id$="-title"]:empty::before, #included-text:empty::before, #price-note:empty:
 }
 .modal-close:hover { color: var(--white); background: rgba(255, 255, 255, .12); }
 .modal-body { display: grid; gap: 18px; padding: 20px 24px; overflow-y: auto; flex: 1; min-height: 0; overscroll-behavior: contain; }
-.modal-foot { display: grid; gap: 8px; padding: 14px 24px 16px; background: var(--paper); border-top: 1px solid var(--line); }
-.modal-foot .modal-note { text-align: center; }
-
-.field { display: grid; gap: 8px; min-width: 0; }
-fieldset.field { border: 0; padding: 0; margin: 0; }
-.field > span, .field > label > span, .field legend { font-weight: 600; font-size: 15px; color: var(--ink); padding: 0; }
-.field legend { margin-bottom: 8px; }
-.field input, .field select {
-  width: 100%; min-height: 50px; padding: 0 14px;
-  font: 400 16px var(--font-body); color: var(--text);
-  background: var(--white); border: 1.5px solid var(--line); border-radius: 10px;
-  transition: border-color .15s, box-shadow .15s;
-}
-.field input:hover, .field select:hover { border-color: var(--steel); }
-.field input:focus, .field select:focus { border-color: var(--blue); outline: none; box-shadow: 0 0 0 3px rgba(47, 95, 158, .22); }
-.field .error { color: #b3261e; font-size: 14px; }
-.field .error:empty { display: none; }
-.field.has-error input, .field.has-error select { border-color: #b3261e; }
-.field-row { display: grid; gap: 18px; }
-
-/* Телефон: +7 стоит заранее, клиент вводит 10 цифр */
-.phone-group {
-  display: flex; align-items: stretch;
-  background: var(--white); border: 1.5px solid var(--line); border-radius: 10px; overflow: hidden;
-  transition: border-color .15s, box-shadow .15s;
-}
-.phone-group:hover { border-color: var(--steel); }
-.phone-group:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(47, 95, 158, .22); }
-.field.has-error .phone-group { border-color: #b3261e; }
-.phone-prefix { display: flex; align-items: center; padding: 0 12px 0 14px; font-weight: 600; font-size: 16px; color: var(--ink); background: var(--tint); border-right: 1.5px solid var(--line); }
-.field .phone-group input { flex: 1; min-width: 0; border: 0; border-radius: 0; box-shadow: none; letter-spacing: .02em; }
-.field .phone-group input:hover, .field .phone-group input:focus { border: 0; box-shadow: none; }
-
-/* Выбор даты и времени */
-.picker .error { margin-top: 6px; }
-.day-row { display: flex; gap: 8px; margin: 0 -24px; padding: 2px 24px 8px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; }
-.day, .slot { position: relative; cursor: pointer; }
-.field .day input, .field .slot input {
-  position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0; margin: 0; padding: 0;
-  opacity: 0; cursor: pointer; border: 0; box-shadow: none;
-}
-.day {
-  flex: none; scroll-snap-align: start; display: grid; justify-items: center; gap: 1px;
-  min-width: 64px; padding: 10px 6px; background: var(--white);
-  border: 1.5px solid var(--line); border-radius: 12px; text-align: center;
-  transition: border-color .15s, background-color .15s, color .15s;
-}
-.day:hover { border-color: var(--steel); }
-.field .day .day-name { font-size: 13px; font-weight: 500; color: var(--muted); text-transform: capitalize; }
-.field .day .day-num { font: 700 22px/1.2 var(--font-display); color: var(--ink); }
-.field .day .day-mon { font-size: 12px; font-weight: 500; color: var(--muted); }
-.day.is-weekend .day-name { color: var(--pole); }
-.day:has(input:checked) { background: var(--ink); border-color: var(--ink); }
-.field .day:has(input:checked) span { color: var(--white); }
-.day:has(input:focus-visible), .slot:has(input:focus-visible) { outline: 3px solid var(--blue); outline-offset: 2px; }
-.day:has(input:disabled) { opacity: .4; cursor: not-allowed; }
-.day input:disabled { cursor: not-allowed; }
-
-.picker-hint { margin-bottom: 8px; color: var(--muted); font-size: 14px; }
-.picker-hint:empty { display: none; }
-.slot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.slot span {
-  display: flex; align-items: center; justify-content: center; min-height: 44px;
-  font-weight: 500; font-size: 15px; color: var(--ink); font-variant-numeric: tabular-nums;
-  background: var(--white); border: 1.5px solid var(--line); border-radius: 10px;
-  transition: border-color .15s, background-color .15s, color .15s;
-}
-.slot:hover span { border-color: var(--steel); }
-.slot:has(input:checked) span { background: var(--pole); border-color: var(--pole); color: var(--white); }
-
-.modal-note { font-size: 14px; color: var(--muted); }
-.booking-summary {
-  padding: 12px 14px; font-size: 15px; color: var(--muted);
-  background: var(--tint); border-left: 4px solid var(--steel); border-radius: 8px;
-}
-.booking-summary.is-ready { color: var(--ink); font-weight: 600; background: #eef6f0; border-left-color: #0f7a45; }
+.modal-lead { color: var(--muted); font-size: 16px; }
+.modal-note { font-size: 14px; color: var(--muted); text-align: center; }
+.booking-branch { padding: 10px 14px; font-weight: 600; color: var(--ink); background: var(--tint); border-left: 4px solid var(--pole); border-radius: 8px; }
+.btn-big { min-height: 58px; font-size: 18px; }
 
 /* Выбор канала записи */
 [hidden] { display: none !important; }
-.channel-buttons { display: grid; gap: 10px; }
 .btn-wa { background: #0f7a45; color: var(--white); }
 .btn-wa:hover { background: #0b6338; }
 .btn-tg { background: #1b74b0; color: var(--white); }
@@ -361,21 +288,7 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 .btn-quiet { background: transparent; color: var(--muted); }
 .btn-quiet:hover { color: var(--text); }
 
-/* Экран после выбора канала */
-.modal-done { display: grid; gap: 14px; padding: 0 0 22px; overflow-y: auto; }
-.modal-done > :not(.modal-head) { margin-inline: 24px; }
-.modal-done p { color: var(--muted); }
-.field textarea {
-  width: 100%; padding: 10px 12px; resize: vertical;
-  font: 400 15px/1.5 var(--font-body); color: var(--text);
-  background: var(--tint); border: 1.5px solid var(--steel); border-radius: var(--radius);
-}
-
 /* ===== Планшет и десктоп ===== */
-@media (min-width: 480px) {
-  .field-row { grid-template-columns: 1fr 1fr; gap: 12px; }
-}
-
 @media (min-width: 720px) {
   :root { --gutter: 24px; }
   body { font-size: 18px; }
@@ -421,12 +334,6 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 /* ===== Карточки филиалов: кнопки ===== */
 .branch-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .branch-phone { display: inline-flex; align-items: center; min-height: 44px; }
-
-/* ===== Согласие в форме ===== */
-.consent { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; font-size: 14px; color: var(--muted); cursor: pointer; }
-.field .consent input { width: 24px; height: 24px; min-height: 0; padding: 0; margin: 0; accent-color: var(--ink); cursor: pointer; }
-.consent a { color: var(--blue); text-decoration: underline; }
-.field.has-error .consent input { outline: 2px solid #b3261e; outline-offset: 2px; }
 
 /* ===== Кнопка «Записаться» внизу экрана на телефоне ===== */
 .sticky-cta { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .94); backdrop-filter: blur(6px); border-top: 1px solid var(--line); }

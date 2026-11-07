@@ -151,88 +151,19 @@
 </div>
 
 <dialog class="modal" id="booking" aria-labelledby="booking-title">
-  <form method="dialog" class="modal-form" id="booking-form" novalidate>
-    <div class="modal-head">
-      <div>
-        <p class="modal-kicker">Онлайн-запись</p>
-        <h2 id="booking-title">Запись на стрижку</h2>
-      </div>
-      <button class="modal-close" type="button" aria-label="Закрыть" data-close>×</button>
+  <div class="modal-head">
+    <div>
+      <p class="modal-kicker">Онлайн-запись</p>
+      <h2 id="booking-title">Где вам удобнее записаться?</h2>
     </div>
-
-    <div class="modal-body">
-      <label class="field">
-        <span>Как вас зовут</span>
-        <input type="text" name="name" autocomplete="given-name" placeholder="Например, Айдар" maxlength="40" required>
-        <small class="error" data-error="name"></small>
-      </label>
-
-      <div class="field">
-        <label for="booking-phone"><span>Телефон</span></label>
-        <div class="phone-group">
-          <span class="phone-prefix" aria-hidden="true">+7</span>
-          <input id="booking-phone" type="tel" name="phone" inputmode="numeric" autocomplete="tel-national" placeholder="700 123 45 67" maxlength="13" aria-label="Телефон, 10 цифр после +7" required>
-        </div>
-        <small class="error" data-error="phone"></small>
-      </div>
-
-      <div class="field-row">
-        <label class="field">
-          <span>Филиал</span>
-          <select name="branch" id="booking-branch"></select>
-        </label>
-        <label class="field">
-          <span>Услуга</span>
-          <select name="service" id="booking-service"></select>
-        </label>
-      </div>
-
-      <fieldset class="field picker">
-        <legend>Дата</legend>
-        <div class="day-row" id="booking-days" role="radiogroup" aria-label="Дата визита"></div>
-        <small class="error" data-error="date"></small>
-      </fieldset>
-
-      <fieldset class="field picker">
-        <legend>Время</legend>
-        <p class="picker-hint" id="slots-hint"></p>
-        <div class="slot-grid" id="booking-slots" role="radiogroup" aria-label="Время визита"></div>
-        <small class="error" data-error="slot"></small>
-      </fieldset>
-
-      <p class="booking-summary" id="booking-summary" aria-live="polite"></p>
-
-      <div class="field consent-field">
-        <label class="consent">
-          <input type="checkbox" name="consent">
-          <span>Согласен(на) на обработку имени и телефона для записи, <a href="privacy.html" target="_blank" rel="noopener">политика конфиденциальности</a></span>
-        </label>
-        <small class="error" data-error="consent"></small>
-      </div>
-    </div>
-
-  <div class="modal-foot">
-    <div class="channel-buttons" id="channel-buttons">
-      <button class="btn btn-wa btn-block" type="submit" name="channel" value="whatsapp" data-channel="whatsapp">Записаться в WhatsApp</button>
-      <button class="btn btn-tg btn-block" type="submit" name="channel" value="telegram" data-channel="telegram">Записаться в Telegram</button>
-    </div>
-    <p class="modal-note" id="channel-note">Откроется чат с готовым сообщением, останется нажать «Отправить».</p>
-    </div>
-  </form>
-
-  <div class="modal-done" id="booking-done" hidden>
-    <div class="modal-head">
-      <h2 id="done-title"></h2>
-      <button class="modal-close" type="button" aria-label="Закрыть" data-close>×</button>
-    </div>
-    <p id="done-text"></p>
-    <label class="field" id="done-message-field" hidden>
-      <span>Текст заявки</span>
-      <textarea id="done-message" rows="6" readonly></textarea>
-    </label>
-    <button class="btn btn-outline btn-block" type="button" id="done-copy" hidden>Скопировать текст заявки</button>
-    <a class="btn btn-primary btn-block" id="done-link" href="#" target="_blank" rel="noopener"></a>
-    <button class="btn btn-quiet btn-block" type="button" data-close>Закрыть</button>
+    <button class="modal-close" type="button" aria-label="Закрыть" data-close>×</button>
+  </div>
+  <div class="modal-body">
+    <p class="booking-branch" id="booking-branch-line" hidden></p>
+    <p class="modal-lead">Откроется чат. Филиал, услугу, день и время выберете там же, ничего заполнять на сайте не нужно.</p>
+    <a class="btn btn-wa btn-block btn-big" id="book-wa" href="#" target="_blank" rel="noopener" data-chat>Записаться в WhatsApp</a>
+    <a class="btn btn-tg btn-block btn-big" id="book-tg" href="#" target="_blank" rel="noopener" data-chat>Записаться в Telegram</a>
+    <p class="modal-note" id="channel-note">В Telegram нажмите «Начать», дальше бот предложит выбрать время кнопками.</p>
   </div>
 </dialog>
 
