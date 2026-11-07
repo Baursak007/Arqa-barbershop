@@ -33,6 +33,20 @@
     }).join("");
   }
 
+  /* Кнопки карты у филиала. Показываются, только если в data.js указаны ссылка 2ГИС и/или координаты. */
+  function mapLinks(b) {
+    var out = "";
+    if (/^https:\/\/(2gis\.(kz|ru|com)|go\.2gis\.com)\//.test(b.map2gis || "")) {
+      out += '<a class="btn btn-outline btn-small" href="' + esc(b.map2gis) + '" target="_blank" rel="noopener">На карте</a>';
+    }
+    var lat = Number(b.lat), lng = Number(b.lng);
+    if (b.lat !== undefined && b.lng !== undefined && isFinite(lat) && isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180) {
+      out += '<a class="btn btn-outline btn-small" href="https://www.google.com/maps/dir/?api=1&destination=' +
+        encodeURIComponent(lat + "," + lng) + '" target="_blank" rel="noopener">Маршрут</a>';
+    }
+    return out;
+  }
+
   function renderBranches() {
     var list = D.branches.filter(function (b) {
       return activeDistrict === "Все" || b.district === activeDistrict;
@@ -44,7 +58,10 @@
           '<p class="branch-meta">' + esc(b.district) + " · " + esc(b.address) + "</p>" +
           '<p class="branch-meta">Часы работы: ' + esc(b.hours) + "</p>" +
           '<a class="branch-phone" href="' + telHref(b.phone) + '">' + esc(b.phone) + "</a>" +
-          '<button class="btn btn-primary btn-small" type="button" data-book data-branch="' + esc(b.name) + '">Записаться</button>' +
+          '<div class="branch-actions">' +
+            '<button class="btn btn-primary btn-small" type="button" data-book data-branch="' + esc(b.name) + '">Записаться</button>' +
+            mapLinks(b) +
+          "</div>" +
         "</article>"
       );
     }).join("");
@@ -316,6 +333,7 @@
     if (digits.length !== 10) { showError("phone", "Введите 10 цифр после +7, например 700 123 45 67."); ok = false; }
     if (!when) { showError("date", "Выберите дату."); ok = false; }
     else if (!when.time) { showError("slot", "Выберите время."); ok = false; }
+    if (!form.elements.consent.checked) { showError("consent", "Нужно согласие на обработку данных."); ok = false; }
     if (!ok) {
       var bad = $(".has-error input", form);
       if (bad) bad.focus();

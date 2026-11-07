@@ -44,6 +44,7 @@ const ld = {
   "@type": "HairSalon",
   name: D.brand,
   url: url + "/",
+  image: url + "/assets/og-image.jpg",
   description,
   areaServed: { "@type": "City", name: "Астана" },
   priceRange: `${Math.min(...allPrices)}–${Math.max(...allPrices)} KZT`,
@@ -61,7 +62,13 @@ const block = [
   `<meta property="og:title" content="${esc(title)}">`,
   `<meta property="og:description" content="${esc(description)}">`,
   `<meta property="og:url" content="${url}/">`,
-  `<meta name="twitter:card" content="summary">`,
+  `<meta property="og:image" content="${url}/assets/og-image.jpg">`,
+  `<meta property="og:image:type" content="image/jpeg">`,
+  `<meta property="og:image:width" content="1200">`,
+  `<meta property="og:image:height" content="630">`,
+  `<meta property="og:image:alt" content="${esc(D.brand)}: барбершоп в Астане, запись онлайн">`,
+  `<meta name="twitter:card" content="summary_large_image">`,
+  `<meta name="twitter:image" content="${url}/assets/og-image.jpg">`,
   `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, "\\u003c")}</script>`,
 ].map((l) => "  " + l).join("\n");
 

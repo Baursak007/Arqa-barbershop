@@ -64,7 +64,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .btn:active { transform: translateY(1px); }
 .btn-ghost { border-color: var(--steel); color: var(--white); }
 .btn-ghost:hover { border-color: var(--white); }
-.btn-small { min-height: 40px; padding: 0 18px; font-size: 15px; }
+.btn-small { min-height: 44px; padding: 0 18px; font-size: 15px; }
 .btn-block { width: 100%; }
 
 /* ===== Шапка ===== */
@@ -417,3 +417,29 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   .skel, h2:empty::before, #included-text:empty::before, #price-note:empty::before { animation: none !important; }
   * { transition: none !important; }
 }
+
+/* ===== Карточки филиалов: кнопки ===== */
+.branch-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.branch-phone { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* ===== Согласие в форме ===== */
+.consent { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; font-size: 14px; color: var(--muted); cursor: pointer; }
+.field .consent input { width: 24px; height: 24px; min-height: 0; padding: 0; margin: 0; accent-color: var(--ink); cursor: pointer; }
+.consent a { color: var(--blue); text-decoration: underline; }
+.field.has-error .consent input { outline: 2px solid #b3261e; outline-offset: 2px; }
+
+/* ===== Кнопка «Записаться» внизу экрана на телефоне ===== */
+.sticky-cta { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .94); backdrop-filter: blur(6px); border-top: 1px solid var(--line); }
+body { padding-bottom: 76px; }
+@media (min-width: 720px) { .sticky-cta { display: none; } body { padding-bottom: 0; } }
+
+/* ===== Страница политики конфиденциальности ===== */
+.doc-page { padding-bottom: 0; }
+.doc { max-width: 760px; padding: 40px var(--gutter) 64px; margin: 0 auto; }
+.doc h1 { font-size: clamp(26px, 6vw, 36px); color: var(--ink); }
+.doc h2 { font-size: 20px; margin-top: 32px; color: var(--ink); }
+.doc p, .doc li { margin-top: 10px; font-size: 17px; }
+.doc ul { list-style: disc; padding-left: 22px; }
+.doc .draft { margin-top: 20px; padding: 12px 14px; background: #ffe9a8; color: #3a2d00; border-radius: 8px; font-size: 15px; }
+.doc .back { display: inline-flex; align-items: center; min-height: 44px; margin-top: 28px; font-weight: 600; color: var(--blue); }
+.field .consent > span { font-weight: 400; font-size: 14px; color: var(--muted); }
