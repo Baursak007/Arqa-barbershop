@@ -18,7 +18,7 @@
 
   --gutter: 16px;
   --max: 1120px;
-  --radius: 4px;
+  --radius: 8px;
 }
 
 /* ===== База ===== */
@@ -60,6 +60,8 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .btn-primary { background: var(--pole); color: var(--white); }
 .btn-primary:hover { background: var(--pole-dark); }
+.btn-primary { box-shadow: 0 6px 16px rgba(201, 54, 44, .28); }
+.btn:active { transform: translateY(1px); }
 .btn-ghost { border-color: var(--steel); color: var(--white); }
 .btn-ghost:hover { border-color: var(--white); }
 .btn-small { min-height: 40px; padding: 0 18px; font-size: 15px; }
@@ -170,6 +172,8 @@ h2[id$="-title"]:empty::before, #included-text:empty::before, #price-note:empty:
   border-left: 6px solid var(--pole);
   border-radius: var(--radius);
 }
+.branch { transition: transform .18s, box-shadow .18s; }
+.branch:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(20, 32, 46, .12); }
 .branch h3 { font-size: 18px; }
 .branch-meta { color: var(--muted); font-size: 15px; }
 .branch-phone { font-weight: 500; text-decoration: none; }
@@ -229,7 +233,7 @@ h2[id$="-title"]:empty::before, #included-text:empty::before, #price-note:empty:
 .cta { background: var(--pole); color: var(--white); padding: 48px 0; }
 .cta-inner { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
 .cta h2 { font-size: clamp(22px, 5vw, 32px); max-width: 18em; }
-.cta .btn-primary { background: var(--ink); }
+.cta .btn-primary { background: var(--ink); box-shadow: none; }
 .cta .btn-primary:hover { background: #0c141d; }
 
 /* Подвал */
@@ -243,31 +247,107 @@ h2[id$="-title"]:empty::before, #included-text:empty::before, #price-note:empty:
 
 /* ===== Окно записи ===== */
 .modal {
-  width: min(480px, calc(100% - 24px));
+  width: min(500px, calc(100% - 24px));
   max-height: calc(100dvh - 24px);
-  padding: 0; border: 0; border-radius: 8px;
+  padding: 0; border: 0; border-radius: 14px;
   background: var(--white); color: var(--text);
-  overflow: auto;
+  overflow: hidden;
+  box-shadow: 0 24px 70px rgba(10, 16, 24, .45);
 }
-.modal::backdrop { background: rgba(10, 16, 24, .7); }
-.modal-form { display: grid; gap: 16px; padding: 24px; }
-.modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.modal[open] { display: flex; flex-direction: column; }
+.modal::backdrop { background: rgba(10, 16, 24, .72); backdrop-filter: blur(3px); }
+.modal-form { display: flex; flex-direction: column; min-height: 0; flex: 1; padding: 0; }
+.modal-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  padding: 20px 24px 18px; background: var(--ink); color: var(--white);
+  border-bottom: 5px solid transparent;
+  border-image: repeating-linear-gradient(135deg, var(--pole) 0 14px, var(--white) 14px 28px, var(--blue) 28px 42px, var(--white) 42px 56px) 1;
+}
 .modal-head h2 { font-size: 22px; }
+.modal-kicker { margin-bottom: 6px; color: var(--steel); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .modal-close {
-  width: 44px; height: 44px; margin: -8px -8px 0 0;
-  font-size: 28px; line-height: 1; background: none; border: 0; cursor: pointer; color: var(--muted);
+  flex: none; width: 44px; height: 44px; margin: -8px -10px 0 0;
+  font-size: 30px; line-height: 1; background: none; border: 0; border-radius: 50%; cursor: pointer; color: var(--steel);
+  transition: background-color .15s, color .15s;
 }
-.field { display: grid; gap: 6px; }
-.field span { font-weight: 500; font-size: 15px; }
+.modal-close:hover { color: var(--white); background: rgba(255, 255, 255, .12); }
+.modal-body { display: grid; gap: 18px; padding: 20px 24px; overflow-y: auto; flex: 1; min-height: 0; overscroll-behavior: contain; }
+.modal-foot { display: grid; gap: 8px; padding: 14px 24px 16px; background: var(--paper); border-top: 1px solid var(--line); }
+.modal-foot .modal-note { text-align: center; }
+
+.field { display: grid; gap: 8px; min-width: 0; }
+fieldset.field { border: 0; padding: 0; margin: 0; }
+.field > span, .field > label > span, .field legend { font-weight: 600; font-size: 15px; color: var(--ink); padding: 0; }
+.field legend { margin-bottom: 8px; }
 .field input, .field select {
-  width: 100%; min-height: 48px; padding: 0 14px;
+  width: 100%; min-height: 50px; padding: 0 14px;
   font: 400 16px var(--font-body); color: var(--text);
-  background: var(--white); border: 1.5px solid var(--steel); border-radius: var(--radius);
+  background: var(--white); border: 1.5px solid var(--line); border-radius: 10px;
+  transition: border-color .15s, box-shadow .15s;
 }
-.field input:focus, .field select:focus { border-color: var(--blue); outline: 2px solid var(--blue); outline-offset: 1px; }
-.field .error { min-height: 0; color: #b3261e; font-size: 14px; }
-.field.has-error input { border-color: #b3261e; }
+.field input:hover, .field select:hover { border-color: var(--steel); }
+.field input:focus, .field select:focus { border-color: var(--blue); outline: none; box-shadow: 0 0 0 3px rgba(47, 95, 158, .22); }
+.field .error { color: #b3261e; font-size: 14px; }
+.field .error:empty { display: none; }
+.field.has-error input, .field.has-error select { border-color: #b3261e; }
+.field-row { display: grid; gap: 18px; }
+
+/* Телефон: +7 стоит заранее, клиент вводит 10 цифр */
+.phone-group {
+  display: flex; align-items: stretch;
+  background: var(--white); border: 1.5px solid var(--line); border-radius: 10px; overflow: hidden;
+  transition: border-color .15s, box-shadow .15s;
+}
+.phone-group:hover { border-color: var(--steel); }
+.phone-group:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(47, 95, 158, .22); }
+.field.has-error .phone-group { border-color: #b3261e; }
+.phone-prefix { display: flex; align-items: center; padding: 0 12px 0 14px; font-weight: 600; font-size: 16px; color: var(--ink); background: var(--tint); border-right: 1.5px solid var(--line); }
+.field .phone-group input { flex: 1; min-width: 0; border: 0; border-radius: 0; box-shadow: none; letter-spacing: .02em; }
+.field .phone-group input:hover, .field .phone-group input:focus { border: 0; box-shadow: none; }
+
+/* Выбор даты и времени */
+.picker .error { margin-top: 6px; }
+.day-row { display: flex; gap: 8px; margin: 0 -24px; padding: 2px 24px 8px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; }
+.day, .slot { position: relative; cursor: pointer; }
+.field .day input, .field .slot input {
+  position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0; margin: 0; padding: 0;
+  opacity: 0; cursor: pointer; border: 0; box-shadow: none;
+}
+.day {
+  flex: none; scroll-snap-align: start; display: grid; justify-items: center; gap: 1px;
+  min-width: 64px; padding: 10px 6px; background: var(--white);
+  border: 1.5px solid var(--line); border-radius: 12px; text-align: center;
+  transition: border-color .15s, background-color .15s, color .15s;
+}
+.day:hover { border-color: var(--steel); }
+.field .day .day-name { font-size: 13px; font-weight: 500; color: var(--muted); text-transform: capitalize; }
+.field .day .day-num { font: 700 22px/1.2 var(--font-display); color: var(--ink); }
+.field .day .day-mon { font-size: 12px; font-weight: 500; color: var(--muted); }
+.day.is-weekend .day-name { color: var(--pole); }
+.day:has(input:checked) { background: var(--ink); border-color: var(--ink); }
+.field .day:has(input:checked) span { color: var(--white); }
+.day:has(input:focus-visible), .slot:has(input:focus-visible) { outline: 3px solid var(--blue); outline-offset: 2px; }
+.day:has(input:disabled) { opacity: .4; cursor: not-allowed; }
+.day input:disabled { cursor: not-allowed; }
+
+.picker-hint { margin-bottom: 8px; color: var(--muted); font-size: 14px; }
+.picker-hint:empty { display: none; }
+.slot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.slot span {
+  display: flex; align-items: center; justify-content: center; min-height: 44px;
+  font-weight: 500; font-size: 15px; color: var(--ink); font-variant-numeric: tabular-nums;
+  background: var(--white); border: 1.5px solid var(--line); border-radius: 10px;
+  transition: border-color .15s, background-color .15s, color .15s;
+}
+.slot:hover span { border-color: var(--steel); }
+.slot:has(input:checked) span { background: var(--pole); border-color: var(--pole); color: var(--white); }
+
 .modal-note { font-size: 14px; color: var(--muted); }
+.booking-summary {
+  padding: 12px 14px; font-size: 15px; color: var(--muted);
+  background: var(--tint); border-left: 4px solid var(--steel); border-radius: 8px;
+}
+.booking-summary.is-ready { color: var(--ink); font-weight: 600; background: #eef6f0; border-left-color: #0f7a45; }
 
 /* Выбор канала записи */
 [hidden] { display: none !important; }
@@ -282,7 +362,8 @@ h2[id$="-title"]:empty::before, #included-text:empty::before, #price-note:empty:
 .btn-quiet:hover { color: var(--text); }
 
 /* Экран после выбора канала */
-.modal-done { display: grid; gap: 14px; padding: 24px; }
+.modal-done { display: grid; gap: 14px; padding: 0 0 22px; overflow-y: auto; }
+.modal-done > :not(.modal-head) { margin-inline: 24px; }
 .modal-done p { color: var(--muted); }
 .field textarea {
   width: 100%; padding: 10px 12px; resize: vertical;
@@ -291,6 +372,10 @@ h2[id$="-title"]:empty::before, #included-text:empty::before, #price-note:empty:
 }
 
 /* ===== Планшет и десктоп ===== */
+@media (min-width: 480px) {
+  .field-row { grid-template-columns: 1fr 1fr; gap: 12px; }
+}
+
 @media (min-width: 720px) {
   :root { --gutter: 24px; }
   body { font-size: 18px; }

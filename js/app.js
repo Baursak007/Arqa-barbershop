@@ -144,6 +144,128 @@
     $("#channel-note").textContent = "Онлайн-запись сейчас недоступна. Позвоните в ближайший филиал.";
   }
 
+
+  /* ---------- Выбор даты и времени ---------- */
+  var DAY_SHORT = ["вс", "пн", "вт", "ср", "чт", "пт", "сб"];
+  var DAY_LONG = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
+  var MONTH_GEN = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+  var MONTH_SHORT = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"];
+  var DAYS_AHEAD = 14;   // на сколько дней вперёд можно записаться
+  var STEP_MIN = 30;     // шаг времени
+  var LAST_BEFORE_CLOSE = 60; // последняя запись за час до закрытия
+  var LEAD_MIN = 30;     // сегодня записываем минимум за 30 минут
+  var daysEl = $("#booking-days");
+  var slotsEl = $("#booking-slots");
+  var slotsHint = $("#slots-hint");
+  var summaryEl = $("#booking-summary");
+
+  // Астана живёт по времени UTC+5. Считаем по нему, чтобы «сегодня» не зависело от часового пояса телефона.
+  function astanaNow() { return new Date(Date.now() + 5 * 3600 * 1000); }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function dayInfo(offset) {
+    var n = astanaNow();
+    var d = new Date(Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate() + offset));
+    return { offset: offset, dow: d.getUTCDay(), day: d.getUTCDate(), month: d.getUTCMonth(), year: d.getUTCFullYear(),
+             iso: d.getUTCFullYear() + "-" + pad(d.getUTCMonth() + 1) + "-" + pad(d.getUTCDate()) };
+  }
+  function branchHours() {
+    var b = D.branches.filter(function (x) { return x.name === branchSel.value; })[0];
+    var m = b && /(\d{1,2}):(\d{2})\D+(\d{1,2}):(\d{2})/.exec(b.hours || "");
+    if (!m) return [10 * 60, 21 * 60];
+    return [+m[1] * 60 + +m[2], +m[3] * 60 + +m[4]];
+  }
+  function slotsFor(offset) {
+    var h = branchHours(), n = astanaNow();
+    var nowMin = n.getUTCHours() * 60 + n.getUTCMinutes();
+    var out = [];
+    for (var t = h[0]; t <= h[1] - LAST_BEFORE_CLOSE; t += STEP_MIN) {
+      if (offset === 0 && t < nowMin + LEAD_MIN) continue;
+      out.push(pad(Math.floor(t / 60)) + ":" + pad(t % 60));
+    }
+    return out;
+  }
+  function chosen(name) {
+    var el = form.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : "";
+  }
+  function renderDays() {
+    var keep = chosen("date"), html = "", firstFree = "";
+    for (var i = 0; i < DAYS_AHEAD; i++) {
+      var d = dayInfo(i), free = slotsFor(i).length > 0;
+      if (free && !firstFree) firstFree = d.iso;
+      var name = i === 0 ? "Сегодня" : i === 1 ? "Завтра" : DAY_SHORT[d.dow];
+      html += '<label class="day' + (d.dow === 0 || d.dow === 6 ? " is-weekend" : "") + '">' +
+        '<input type="radio" name="date" value="' + d.iso + '"' + (free ? "" : " disabled") + '>' +
+        '<span class="day-name">' + name + '</span><span class="day-num">' + d.day + '</span><span class="day-mon">' + MONTH_SHORT[d.month] + "</span></label>";
+    }
+    daysEl.innerHTML = html;
+    var pick = keep && daysEl.querySelector('input[value="' + keep + '"]:not(:disabled)') ? keep : firstFree;
+    var el = pick && daysEl.querySelector('input[value="' + pick + '"]');
+    if (el) el.checked = true;
+  }
+  function renderSlots() {
+    var keep = chosen("slot"), iso = chosen("date");
+    var off = -1;
+    for (var i = 0; i < DAYS_AHEAD; i++) if (dayInfo(i).iso === iso) off = i;
+    var list = off < 0 ? [] : slotsFor(off);
+    slotsHint.textContent = list.length ? "" : "На эту дату свободного времени нет. Выберите другой день.";
+    slotsEl.innerHTML = list.map(function (t) {
+      return '<label class="slot"><input type="radio" name="slot" value="' + t + '"><span>' + t + "</span></label>";
+    }).join("");
+    var el = keep && slotsEl.querySelector('input[value="' + keep + '"]');
+    if (el) el.checked = true;
+  }
+  function whenText() {
+    var iso = chosen("date"), slot = chosen("slot");
+    if (!iso) return null;
+    for (var i = 0; i < DAYS_AHEAD; i++) {
+      var d = dayInfo(i);
+      if (d.iso === iso) {
+        return { date: DAY_LONG[d.dow] + ", " + d.day + " " + MONTH_GEN[d.month] + " " + d.year,
+                 short: DAY_SHORT[d.dow] + ", " + d.day + " " + MONTH_GEN[d.month], time: slot };
+      }
+    }
+    return null;
+  }
+  function renderSummary() {
+    var w = whenText();
+    summaryEl.textContent = w && w.time
+      ? "Запись: " + w.short + " в " + w.time + ", " + branchSel.value
+      : "Выберите дату и время, и здесь появится ваша запись.";
+    summaryEl.classList.toggle("is-ready", !!(w && w.time));
+  }
+  function resetPicker() {
+    renderDays();
+    renderSlots();
+    renderSummary();
+  }
+  form.addEventListener("change", function (e) {
+    var n = e.target.name;
+    if (n === "date" || n === "branch") { if (n === "branch") renderDays(); renderSlots(); }
+    if (n === "date" || n === "slot" || n === "branch") { clearError("date"); clearError("slot"); renderSummary(); }
+  });
+
+  /* ---------- Телефон: +7 уже стоит, вводим 10 цифр ---------- */
+  var phoneInput = $("#booking-phone");
+  function formatPhone(raw) {
+    raw = String(raw);
+    var d = raw.replace(/\D/g, "");
+    // Номера в Казахстане начинаются с 7 (700, 707, 775...), а «8» это старый выход на межгород.
+    // Поэтому: «+7...» и «8...» отбрасываем первую цифру, а голую «7» в начале оставляем как часть номера.
+    if (/^\s*\+/.test(raw)) d = d.replace(/^7/, "");
+    else if (d.charAt(0) === "8") d = d.slice(1);
+    else if (d.length > 10 && d.charAt(0) === "7") d = d.slice(1);
+    d = d.slice(0, 10);
+    var parts = [d.slice(0, 3), d.slice(3, 6), d.slice(6, 8), d.slice(8, 10)].filter(Boolean);
+    return parts.join(" ");
+  }
+  phoneInput.addEventListener("input", function () {
+    var raw = phoneInput.value;
+    // одинокий «+» оставляем, чтобы после него «7» не посчиталась цифрой номера
+    phoneInput.value = raw.trim() === "+" ? "+" : formatPhone(raw);
+    clearError("phone");
+  });
+
   function openBooking(branchName) {
     if (branchName) branchSel.value = branchName;
     clearErrors();
@@ -152,6 +274,7 @@
     $("#done-copy").textContent = "Скопировать текст заявки";
     if (typeof dialog.showModal === "function") dialog.showModal();
     else dialog.setAttribute("open", "");
+    resetPicker();
     var first = $("input[name=name]", form);
     if (first) first.focus();
   }
@@ -167,6 +290,12 @@
     $$(".field", form).forEach(function (f) { f.classList.remove("has-error"); });
     $$("[data-error]", form).forEach(function (s) { s.textContent = ""; });
   }
+  function clearError(name) {
+    var small = $('[data-error="' + name + '"]', form);
+    if (!small) return;
+    small.textContent = "";
+    small.closest(".field").classList.remove("has-error");
+  }
   function showError(name, text) {
     var small = $('[data-error="' + name + '"]', form);
     if (!small) return;
@@ -178,24 +307,32 @@
     e.preventDefault();
     clearErrors();
     var name = form.elements.name.value.trim();
-    var phone = form.elements.phone.value.trim();
-    var digits = phone.replace(/\D/g, "");
+    var digits = phoneInput.value.replace(/\D/g, "");
+    var phone = "+7 " + formatPhone(phoneInput.value);
+    var when = whenText();
     var ok = true;
 
     if (name.length < 2) { showError("name", "Введите имя."); ok = false; }
-    if (digits.length < 10) { showError("phone", "Введите номер полностью, например +7 700 123 45 67."); ok = false; }
-    if (!ok) { var bad = $(".has-error input", form); if (bad) bad.focus(); return; }
+    if (digits.length !== 10) { showError("phone", "Введите 10 цифр после +7, например 700 123 45 67."); ok = false; }
+    if (!when) { showError("date", "Выберите дату."); ok = false; }
+    else if (!when.time) { showError("slot", "Выберите время."); ok = false; }
+    if (!ok) {
+      var bad = $(".has-error input", form);
+      if (bad) bad.focus();
+      var badBox = $(".has-error", form);
+      if (badBox && badBox.scrollIntoView) badBox.scrollIntoView({ block: "center" });
+      return;
+    }
 
-    var lines = [
+    var message = [
       "Здравствуйте! Хочу записаться.",
       "Имя: " + name,
       "Телефон: " + phone,
       "Филиал: " + form.elements.branch.value,
       "Услуга: " + form.elements.service.value,
-    ];
-    var when = form.elements.time.value.trim();
-    if (when) lines.push("Удобное время: " + when);
-    var message = lines.join("\n");
+      "Дата: " + when.date,
+      "Время: " + when.time,
+    ].join("\n");
 
     // какую кнопку нажал клиент
     var channel = (e.submitter && e.submitter.getAttribute("data-channel")) || lastChannel;
@@ -235,6 +372,7 @@
       });
     }
     form.reset();
+    resetPicker();
   });
 
   form.addEventListener("click", function (e) {
@@ -277,5 +415,6 @@
   renderOffers();
   renderWhy();
   renderPrices();
+  resetPicker();
   $$("[aria-busy]").forEach(function (el) { el.removeAttribute("aria-busy"); });
 })();
