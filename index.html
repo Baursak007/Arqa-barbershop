@@ -10,15 +10,26 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <script src="js/frame-guard.js"></script>
   <title>ARQA — барбершоп в Астане</title>
-  <meta name="description" content="ARQA — сеть барбершопов в Астане. Выберите ближайший филиал и запишитесь онлайн за минуту.">
-  <meta property="og:title" content="ARQA — барбершоп в Астане">
-  <meta property="og:description" content="Шесть филиалов, опытные барберы, запись онлайн.">
+  <!-- seo:start -->
+  <meta name="description" content="ARQA — сеть барбершопов в Астане: 6 филиалов, мужские стрижки, борода, детские стрижки. Цены от 1500 ₸. Запись онлайн в WhatsApp и Telegram.">
+  <link rel="canonical" href="https://baursak007.github.io/barbershop-site/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_KZ">
+  <meta property="og:site_name" content="ARQA">
+  <meta property="og:title" content="ARQA — барбершоп в Астане">
+  <meta property="og:description" content="ARQA — сеть барбершопов в Астане: 6 филиалов, мужские стрижки, борода, детские стрижки. Цены от 1500 ₸. Запись онлайн в WhatsApp и Telegram.">
+  <meta property="og:url" content="https://baursak007.github.io/barbershop-site/">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"HairSalon","name":"ARQA","url":"https://baursak007.github.io/barbershop-site/","description":"ARQA — сеть барбершопов в Астане: 6 филиалов, мужские стрижки, борода, детские стрижки. Цены от 1500 ₸. Запись онлайн в WhatsApp и Telegram.","areaServed":{"@type":"City","name":"Астана"},"priceRange":"1500–15500 KZT","department":[{"@type":"HairSalon","name":"ARQA Есиль","telephone":"+7 700 000 00 01","address":{"@type":"PostalAddress","addressLocality":"Астана","addressCountry":"KZ"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"10:00","closes":"22:00"}],"priceRange":"1500–15500 KZT"},{"@type":"HairSalon","name":"ARQA Expo","telephone":"+7 700 000 00 02","address":{"@type":"PostalAddress","addressLocality":"Астана","addressCountry":"KZ"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"10:00","closes":"22:00"}],"priceRange":"1500–15500 KZT"},{"@type":"HairSalon","name":"ARQA Сарыарка","telephone":"+7 700 000 00 03","address":{"@type":"PostalAddress","addressLocality":"Астана","addressCountry":"KZ"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"10:00","closes":"21:00"}],"priceRange":"1500–15500 KZT"},{"@type":"HairSalon","name":"ARQA Алматы","telephone":"+7 700 000 00 04","address":{"@type":"PostalAddress","addressLocality":"Астана","addressCountry":"KZ"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"10:00","closes":"21:00"}],"priceRange":"1500–15500 KZT"},{"@type":"HairSalon","name":"ARQA Центр","telephone":"+7 700 000 00 05","address":{"@type":"PostalAddress","addressLocality":"Астана","addressCountry":"KZ"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"09:00","closes":"22:00"}],"priceRange":"1500–15500 KZT"},{"@type":"HairSalon","name":"ARQA Достык","telephone":"+7 700 000 00 06","address":{"@type":"PostalAddress","addressLocality":"Астана","addressCountry":"KZ"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"09:00","closes":"22:00"}],"priceRange":"1500–15500 KZT"}]}</script>
+  <!-- seo:end -->
   <meta name="theme-color" content="#14202e">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- Шрифты подгружаются отдельно (js/fonts.js), чтобы страница не ждала Google и появлялась сразу.
+       Если JS выключен, сработает запасной вариант ниже. -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;700&display=swap&subset=cyrillic" rel="stylesheet">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;700&display=swap&subset=cyrillic"></noscript>
+  <script src="js/fonts.js" defer></script>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -49,9 +60,9 @@
   <section class="hero">
     <div class="wrap hero-inner">
       <div class="hero-copy">
-        <p class="hero-kicker" data-bind="tagline"></p>
-        <h1 data-bind="heroTitle"></h1>
-        <p class="hero-text" data-bind="heroText"></p>
+        <p class="hero-kicker" data-bind="tagline">Барбершоп в Астане</p>
+        <h1 data-bind="heroTitle">Стрижка, после которой хочется улыбнуться своему отражению</h1>
+        <p class="hero-text" data-bind="heroText">Шесть филиалов в разных районах города. Выберите ближайший, запишитесь за минуту и приходите к назначенному времени без очереди.</p>
         <div class="hero-actions">
           <button class="btn btn-primary" type="button" data-book>Записаться онлайн</button>
           <a class="btn btn-ghost" href="#branches">Найти филиал</a>
@@ -68,7 +79,7 @@
       <h2>Наши филиалы</h2>
       <p class="section-lead">Выберите район и ближайший барбершоп, затем нажмите «Записаться».</p>
       <div class="chips" id="chips" role="group" aria-label="Фильтр по району"></div>
-      <div class="branch-grid" id="branch-grid"></div>
+      <div class="branch-grid" id="branch-grid" aria-busy="true"><article class="branch skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w40"></span><span class="skel w50"></span><span class="skel btn"></span></article><article class="branch skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w40"></span><span class="skel w50"></span><span class="skel btn"></span></article><article class="branch skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w40"></span><span class="skel w50"></span><span class="skel btn"></span></article><article class="branch skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w40"></span><span class="skel w50"></span><span class="skel btn"></span></article><article class="branch skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w40"></span><span class="skel w50"></span><span class="skel btn"></span></article><article class="branch skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w40"></span><span class="skel w50"></span><span class="skel btn"></span></article></div>
       <p class="map-link"><a id="map-link" href="#" target="_blank" rel="noopener">Все филиалы на карте</a></p>
     </div>
   </section>
@@ -77,21 +88,21 @@
     <div class="wrap">
       <h2 id="included-title"></h2>
       <p class="section-lead" id="included-text"></p>
-      <ul class="included-list" id="included-list"></ul>
+      <ul class="included-list" id="included-list" aria-busy="true"><li class="skel-li" aria-hidden="true"><span class="skel h w50"></span><span class="skel w80"></span></li><li class="skel-li" aria-hidden="true"><span class="skel h w50"></span><span class="skel w80"></span></li><li class="skel-li" aria-hidden="true"><span class="skel h w50"></span><span class="skel w80"></span></li><li class="skel-li" aria-hidden="true"><span class="skel h w50"></span><span class="skel w80"></span></li><li class="skel-li" aria-hidden="true"><span class="skel h w50"></span><span class="skel w80"></span></li><li class="skel-li" aria-hidden="true"><span class="skel h w50"></span><span class="skel w80"></span></li></ul>
     </div>
   </section>
 
   <section class="section" id="offers">
     <div class="wrap">
       <h2 id="offers-title"></h2>
-      <div class="offer-grid" id="offer-grid"></div>
+      <div class="offer-grid" id="offer-grid" aria-busy="true"><article class="offer skel-card" aria-hidden="true"><span class="skel tag"></span><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w50"></span></article><article class="offer skel-card" aria-hidden="true"><span class="skel tag"></span><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w50"></span></article><article class="offer skel-card" aria-hidden="true"><span class="skel tag"></span><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w50"></span></article></div>
     </div>
   </section>
 
   <section class="section section-tint" id="why">
     <div class="wrap">
       <h2 id="why-title"></h2>
-      <div class="why-grid" id="why-grid"></div>
+      <div class="why-grid" id="why-grid" aria-busy="true"><div class="skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w50"></span></div><div class="skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w50"></span></div><div class="skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w50"></span></div></div>
     </div>
   </section>
 
@@ -100,7 +111,7 @@
       <h2 id="price-title"></h2>
       <p class="section-lead" id="price-note"></p>
       <div class="price-scroll" tabindex="0" role="region" aria-label="Таблица цен, можно прокручивать по горизонтали">
-        <table class="price-table" id="price-table"></table>
+        <table class="price-table" id="price-table" aria-busy="true"><tbody><tr class="skel-row" aria-hidden="true"><td><span class="skel w80"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td></tr><tr class="skel-row" aria-hidden="true"><td><span class="skel w80"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td></tr><tr class="skel-row" aria-hidden="true"><td><span class="skel w80"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td></tr><tr class="skel-row" aria-hidden="true"><td><span class="skel w80"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td></tr><tr class="skel-row" aria-hidden="true"><td><span class="skel w80"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td></tr><tr class="skel-row" aria-hidden="true"><td><span class="skel w80"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td></tr><tr class="skel-row" aria-hidden="true"><td><span class="skel w80"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td></tr><tr class="skel-row" aria-hidden="true"><td><span class="skel w80"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td><td><span class="skel w60"></span></td></tr></tbody></table>
       </div>
     </div>
   </section>
@@ -185,7 +196,7 @@
   </div>
 </dialog>
 
-<script src="js/data.js"></script>
-<script src="js/app.js"></script>
+<script src="js/data.js" defer></script>
+<script src="js/app.js" defer></script>
 </body>
 </html>

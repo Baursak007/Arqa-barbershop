@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://baursak007.github.io/barbershop-site/sitemap.xml

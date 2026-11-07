@@ -26,6 +26,10 @@ const CONFIG = {
   // Только латиница, цифры, _ и -, до 64 символов. Пусто = без метки.
   telegramStart: "site",
 
+  // Адрес сайта в интернете, БЕЗ слэша на конце. Нужен для поиска (Google, Яндекс) и ссылок в соцсетях.
+  // Когда купишь свой домен, замени здесь и запусти: node tools/seo.js
+  siteUrl: "https://baursak007.github.io/barbershop-site",
+
   instagram: "https://www.instagram.com/",
   map: "https://2gis.kz/astana",
 };

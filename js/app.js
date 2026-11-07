@@ -277,4 +277,5 @@
   renderOffers();
   renderWhy();
   renderPrices();
+  $$("[aria-busy]").forEach(function (el) { el.removeAttribute("aria-busy"); });
 })();
