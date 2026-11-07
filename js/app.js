@@ -119,7 +119,16 @@
   var form = $("#booking-form");
   var branchSel = $("#booking-branch");
   var serviceSel = $("#booking-service");
-  var submitBtn = $("#booking-submit");
+  var doneBox = $("#booking-done");
+  var lastChannel = "";
+
+  /* Настройки каналов из CONFIG. Значения проверяются, чтобы посторонний текст не попал в ссылку. */
+  var waNumber = String(C.whatsapp || "").replace(/\D/g, "");
+  var tgName = String(C.telegram || "").trim().replace(/^https?:\/\/t\.me\//i, "").replace(/^@/, "");
+  if (!/^[A-Za-z0-9_]{3,64}$/.test(tgName)) tgName = "";
+  var tgIsBot = C.telegramType !== "user";
+  var tgStart = /^[A-Za-z0-9_-]{1,64}$/.test(C.telegramStart || "") ? C.telegramStart : "";
+  var available = { whatsapp: waNumber.length >= 10, telegram: tgName !== "" };
 
   branchSel.innerHTML = D.branches.map(function (b) {
     return '<option value="' + esc(b.name) + '">' + esc(b.name) + "</option>";
@@ -127,11 +136,20 @@
   serviceSel.innerHTML = D.services.map(function (s) {
     return '<option value="' + esc(s) + '">' + esc(s) + "</option>";
   }).join("");
-  submitBtn.textContent = C.bookingChannel === "telegram" ? "Отправить в Telegram" : "Отправить в WhatsApp";
+  // показываем только те каналы, которые настроены
+  $$("[data-channel]", form).forEach(function (btn) {
+    btn.hidden = !available[btn.getAttribute("data-channel")];
+  });
+  if (!available.whatsapp && !available.telegram) {
+    $("#channel-note").textContent = "Онлайн-запись сейчас недоступна. Позвоните в ближайший филиал.";
+  }
 
   function openBooking(branchName) {
     if (branchName) branchSel.value = branchName;
     clearErrors();
+    form.hidden = false;
+    doneBox.hidden = true;
+    $("#done-copy").textContent = "Скопировать текст заявки";
     if (typeof dialog.showModal === "function") dialog.showModal();
     else dialog.setAttribute("open", "");
     var first = $("input[name=name]", form);
@@ -177,15 +195,79 @@
     ];
     var when = form.elements.time.value.trim();
     if (when) lines.push("Удобное время: " + when);
-    var text = encodeURIComponent(lines.join("\n"));
+    var message = lines.join("\n");
 
-    var url = C.bookingChannel === "telegram"
-      ? "https://t.me/" + encodeURIComponent(C.telegram) + "?text=" + text
-      : "https://wa.me/" + C.whatsapp.replace(/\D/g, "") + "?text=" + text;
+    // какую кнопку нажал клиент
+    var channel = (e.submitter && e.submitter.getAttribute("data-channel")) || lastChannel;
+    if (!available[channel]) channel = available.whatsapp ? "whatsapp" : (available.telegram ? "telegram" : "");
+    if (!channel) return;
 
-    window.open(url, "_blank", "noopener");
-    dialog.close();
+    if (channel === "whatsapp") {
+      var waUrl = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(message);
+      window.open(waUrl, "_blank", "noopener");
+      showDone({
+        title: "Осталось отправить сообщение",
+        text: "В WhatsApp нажмите «Отправить», и заявка дойдёт до администратора. Если чат не открылся, нажмите кнопку ниже.",
+        url: waUrl, linkLabel: "Открыть WhatsApp", showMessage: false,
+      });
+    } else if (!tgIsBot) {
+      // личный аккаунт: Telegram сам подставляет текст из ссылки
+      var tgUserUrl = "https://t.me/" + tgName + "?text=" + encodeURIComponent(message);
+      window.open(tgUserUrl, "_blank", "noopener");
+      showDone({
+        title: "Осталось отправить сообщение",
+        text: "В Telegram нажмите «Отправить», и заявка дойдёт до администратора. Если чат не открылся, нажмите кнопку ниже.",
+        url: tgUserUrl, linkLabel: "Открыть Telegram", showMessage: false,
+      });
+    } else {
+      // бот: ссылка не умеет подставлять текст, поэтому копируем заявку, а клиент вставляет её в чат
+      var tgBotUrl = "https://t.me/" + tgName + (tgStart ? "?start=" + tgStart : "");
+      window.open(tgBotUrl, "_blank", "noopener");
+      showDone({
+        title: "Вставьте заявку в чат",
+        text: "В Telegram нажмите «Запустить» (Start), затем вставьте текст заявки и отправьте его боту.",
+        url: tgBotUrl, linkLabel: "Открыть Telegram", showMessage: true, message: message,
+      });
+      copyText(message).then(function (ok) {
+        $("#done-text").textContent = ok
+          ? "Текст заявки уже скопирован. В Telegram нажмите «Запустить» (Start), затем вставьте текст в сообщение и отправьте его боту."
+          : "В Telegram нажмите «Запустить» (Start). Скопируйте текст заявки ниже, вставьте его в сообщение и отправьте боту.";
+      });
+    }
     form.reset();
+  });
+
+  form.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-channel]");
+    if (b) lastChannel = b.getAttribute("data-channel");
+  });
+
+  function copyText(text) {
+    try {
+      return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return false; });
+    } catch (err) {
+      return Promise.resolve(false);
+    }
+  }
+
+  function showDone(o) {
+    form.hidden = true;
+    doneBox.hidden = false;
+    $("#done-title").textContent = o.title;
+    $("#done-text").textContent = o.text;
+    var link = $("#done-link");
+    link.setAttribute("href", o.url);
+    link.textContent = o.linkLabel;
+    $("#done-message-field").hidden = !o.showMessage;
+    $("#done-copy").hidden = !o.showMessage;
+    if (o.showMessage) $("#done-message").value = o.message;
+  }
+
+  $("#done-copy").addEventListener("click", function () {
+    var btn = this;
+    copyText($("#done-message").value).then(function (ok) {
+      btn.textContent = ok ? "Текст скопирован" : "Выделите текст выше и скопируйте вручную";
+    });
   });
 
   /* ---------- Запуск ---------- */

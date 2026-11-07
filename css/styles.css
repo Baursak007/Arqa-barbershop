@@ -248,6 +248,27 @@ ul { margin: 0; padding: 0; list-style: none; }
 .field.has-error input { border-color: #b3261e; }
 .modal-note { font-size: 14px; color: var(--muted); }
 
+/* Выбор канала записи */
+[hidden] { display: none !important; }
+.channel-buttons { display: grid; gap: 10px; }
+.btn-wa { background: #0f7a45; color: var(--white); }
+.btn-wa:hover { background: #0b6338; }
+.btn-tg { background: #1b74b0; color: var(--white); }
+.btn-tg:hover { background: #155d8f; }
+.btn-outline { border-color: var(--ink); color: var(--ink); background: transparent; }
+.btn-outline:hover { background: var(--tint); }
+.btn-quiet { background: transparent; color: var(--muted); }
+.btn-quiet:hover { color: var(--text); }
+
+/* Экран после выбора канала */
+.modal-done { display: grid; gap: 14px; padding: 24px; }
+.modal-done p { color: var(--muted); }
+.field textarea {
+  width: 100%; padding: 10px 12px; resize: vertical;
+  font: 400 15px/1.5 var(--font-body); color: var(--text);
+  background: var(--tint); border: 1.5px solid var(--steel); border-radius: var(--radius);
+}
+
 /* ===== Планшет и десктоп ===== */
 @media (min-width: 720px) {
   :root { --gutter: 24px; }

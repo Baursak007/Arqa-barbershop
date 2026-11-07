@@ -161,9 +161,27 @@
       <input type="text" name="time" placeholder="Например, завтра после 18:00">
     </label>
 
-    <button class="btn btn-primary btn-block" type="submit" id="booking-submit"></button>
-    <p class="modal-note">Откроется чат, где останется нажать «Отправить». Мы подтвердим запись в течение нескольких минут.</p>
+    <div class="channel-buttons" id="channel-buttons">
+      <button class="btn btn-wa btn-block" type="submit" name="channel" value="whatsapp" data-channel="whatsapp">Записаться в WhatsApp</button>
+      <button class="btn btn-tg btn-block" type="submit" name="channel" value="telegram" data-channel="telegram">Записаться в Telegram</button>
+    </div>
+    <p class="modal-note" id="channel-note">Выберите, где вам удобнее. Откроется чат, где останется нажать «Отправить». Мы подтвердим запись в течение нескольких минут.</p>
   </form>
+
+  <div class="modal-done" id="booking-done" hidden>
+    <div class="modal-head">
+      <h2 id="done-title"></h2>
+      <button class="modal-close" type="button" aria-label="Закрыть" data-close>×</button>
+    </div>
+    <p id="done-text"></p>
+    <label class="field" id="done-message-field" hidden>
+      <span>Текст заявки</span>
+      <textarea id="done-message" rows="6" readonly></textarea>
+    </label>
+    <button class="btn btn-outline btn-block" type="button" id="done-copy" hidden>Скопировать текст заявки</button>
+    <a class="btn btn-primary btn-block" id="done-link" href="#" target="_blank" rel="noopener"></a>
+    <button class="btn btn-quiet btn-block" type="button" data-close>Закрыть</button>
+  </div>
 </dialog>
 
 <script src="js/data.js"></script>
