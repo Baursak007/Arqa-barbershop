@@ -12,10 +12,10 @@ const CONFIG = {
   */
 
   // WhatsApp: номер с кодом страны, только цифры, без + и пробелов. Пример: 77001234567
-  whatsapp: "77000000000",
+  whatsapp: "77064212067",
 
   // Telegram: имя бота или аккаунта БЕЗ @ и без https://t.me/. Пример: arqa_booking_bot
-  telegram: "your_barbershop_bot",
+  telegram: "Janeeeeeq_bot",
 
   // Что это за Telegram-адрес: "bot" (твой бот) или "user" (личный аккаунт, где отвечает человек).
   // Для бота Telegram не умеет подставлять текст из ссылки, поэтому сайт копирует заявку,
