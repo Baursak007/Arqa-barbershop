@@ -43,7 +43,6 @@
 <body>
 
 <a class="skip" href="#main">К содержанию</a>
-<div class="bg-fixed" id="bg-fixed" aria-hidden="true"></div>
 
 <header class="site-header" id="top">
   <div class="wrap header-inner">
@@ -60,7 +59,7 @@
     <nav class="nav" id="nav" aria-label="Основное меню">
       <a href="#services">Услуги</a>
       <a href="#prices">Прайс</a>
-      <a href="#gallery">Галерея</a>
+      <a href="#gallery">Работы</a>
       <a href="#barbers">Мастера</a>
       <a href="#contacts">Филиалы</a>
       <a class="nav-phone" id="nav-phone" href="#" hidden><svg class="ico" viewBox="0 0 24 24"><use href="#i-phone"/></svg><span></span></a>
@@ -74,39 +73,25 @@
 
 <main id="main">
 
-  <section class="hero" id="hero" data-bg="photo-1503951914875-452162b0f3f1" data-bg-title="Интерьер и атмосфера">
+  <section class="hero" id="hero" data-bg="photo-1503951914875-452162b0f3f1">
     <svg class="hero-watermark ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-scissors"/></svg>
     <div class="wrap hero-inner">
       <div class="hero-copy">
-        <p class="badge"><span class="ping" aria-hidden="true"></span><span data-bind="heroBadge">Премиальный барбершоп в Астане</span></p>
-        <h1><span data-bind="heroLine1">ТВОЙ СТИЛЬ.</span><br><span class="gold-text" data-bind="heroLine2">ТВОЯ ТЕРРИТОРИЯ.</span></h1>
-        <p class="hero-text" data-bind="heroText">Искусство мужской стрижки и традиционного бритья. Мы создаём безупречный образ для мужчин, которые ценят качество и характер.</p>
+        <p class="badge"><span class="ping" aria-hidden="true"></span><span data-bind="heroBadge">Барбершоп в Астане</span></p>
+        <h1><span data-bind="heroLine1">СТРИЖКИ И БОРОДА.</span><br><span class="gold-text" data-bind="heroLine2">ПО ЗАПИСИ.</span></h1>
+        <p class="hero-text" data-bind="heroText">Выберите филиал, барбера и удобное время в WhatsApp или Telegram. Приходите ко времени, без очередей.</p>
         <div class="hero-actions">
-          <button class="btn btn-gold btn-lg" type="button" data-book>Записаться онлайн <svg class="ico" viewBox="0 0 24 24"><use href="#i-calendar"/></svg></button>
-          <a class="btn btn-outline btn-lg" href="#prices">Узнать цены</a>
+          <button class="btn btn-gold btn-lg" type="button" data-book>Записаться <svg class="ico" viewBox="0 0 24 24"><use href="#i-calendar"/></svg></button>
+          <a class="btn btn-outline btn-lg" href="#prices">Цены</a>
         </div>
         <ul class="stats" id="stats"></ul>
       </div>
 
       <div class="hero-card-wrap">
-        <div class="seal" aria-hidden="true">
-          <svg viewBox="0 0 100 100" class="spin">
-            <path id="seal-path" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
-            <text font-size="7.5" font-weight="700" fill="#d4af37" letter-spacing="2"><textPath href="#seal-path">ARQA • PREMIUM BARBERSHOP • ASTANA •</textPath></text>
-          </svg>
-          <svg class="ico seal-crown" viewBox="0 0 24 24"><use href="#i-crown"/></svg>
-        </div>
         <div class="hero-card" id="hero-card">
           <div class="hero-photo">
-            <img id="hero-img" class="fade-img" alt="Интерьер барбершопа ARQA" width="800" height="1000" fetchpriority="high" decoding="async">
+            <img id="hero-img" class="fade-img" alt="ARQA" width="800" height="1000" fetchpriority="high" decoding="async">
             <div class="photo-shade"></div>
-            <div class="photo-label">
-              <div>
-                <p class="label-kicker">Фото меняется при прокрутке</p>
-                <p class="label-title" id="hero-label">Интерьер и атмосфера</p>
-              </div>
-              <svg class="ico bounce" viewBox="0 0 24 24"><use href="#i-updown"/></svg>
-            </div>
           </div>
         </div>
       </div>
@@ -117,11 +102,10 @@
     <ul class="wrap strip-grid" id="advantages"></ul>
   </section>
 
-  <section class="section" id="services" data-bg="photo-1585747860715-2ba37e788b70" data-bg-title="Стрижка и уход">
+  <section class="section" id="services">
     <div class="wrap">
       <header class="section-head">
-        <p class="kicker">Услуги и сервис</p>
-        <h2>Что мы делаем</h2>
+        <h2>Услуги</h2>
         <span class="rule" aria-hidden="true"></span>
       </header>
       <div class="card-grid" id="service-grid" aria-busy="true"><div class="card skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w50"></span></div><div class="card skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w50"></span></div><div class="card skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w50"></span></div></div>
@@ -131,7 +115,6 @@
   <section class="section section-alt" id="prices">
     <div class="wrap">
       <header class="section-head">
-        <p class="kicker">Полный прайс</p>
         <h2 id="price-title">Прайс-лист</h2>
         <span class="rule" aria-hidden="true"></span>
         <p class="section-lead" id="price-note"></p>
@@ -142,12 +125,10 @@
     </div>
   </section>
 
-  <section class="section" id="gallery" data-bg="photo-1621605815971-fbc98d665033" data-bg-title="Галерея стрижек">
+  <section class="section" id="gallery">
     <div class="wrap">
       <header class="section-head">
-        <p class="kicker">Портфолио работ</p>
-        <h2>ГАЛЕРЕЯ ARQA</h2>
-        <p class="section-lead">Нажимайте на миниатюры, чтобы сменить кадр</p>
+        <h2>Работы</h2>
       </header>
       <div class="gallery">
         <figure class="gallery-main">
@@ -163,24 +144,22 @@
     </div>
   </section>
 
-  <section class="section section-alt" id="barbers" data-bg="photo-1599351431202-1e0f0137899a" data-bg-title="Наша команда">
+  <section class="section section-alt" id="barbers">
     <div class="wrap">
       <header class="section-head">
-        <p class="kicker">Команда барберов</p>
-        <h2 id="barbers-title">МАСТЕРА ARQA</h2>
+        <h2 id="barbers-title">Мастера</h2>
         <span class="rule" aria-hidden="true"></span>
       </header>
       <div class="barber-grid" id="barber-grid" aria-busy="true"><div class="card skel-card" aria-hidden="true"><span class="skel photo"></span><span class="skel h w60"></span><span class="skel w80"></span></div><div class="card skel-card" aria-hidden="true"><span class="skel photo"></span><span class="skel h w60"></span><span class="skel w80"></span></div><div class="card skel-card" aria-hidden="true"><span class="skel photo"></span><span class="skel h w60"></span><span class="skel w80"></span></div></div>
     </div>
   </section>
 
-  <section class="section" id="contacts" data-bg="photo-1512690459411-b9245aed614b" data-bg-title="Филиалы и контакты">
+  <section class="section" id="contacts">
     <div class="wrap">
       <header class="section-head">
-        <p class="kicker">Ждём вас</p>
-        <h2>ФИЛИАЛЫ И КОНТАКТЫ</h2>
+        <h2>Филиалы</h2>
         <span class="rule" aria-hidden="true"></span>
-        <p class="section-lead">Выберите район и ближайший барбершоп, затем нажмите «Записаться».</p>
+        <p class="section-lead">Выберите филиал рядом с вами и нажмите «Записаться».</p>
       </header>
       <div class="chips" id="chips" role="group" aria-label="Фильтр по району"></div>
       <div class="branch-grid" id="branch-grid" aria-busy="true"><article class="branch skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w40"></span><span class="skel btn"></span></article><article class="branch skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w40"></span><span class="skel btn"></span></article><article class="branch skel-card" aria-hidden="true"><span class="skel h w60"></span><span class="skel w80"></span><span class="skel w40"></span><span class="skel btn"></span></article></div>
@@ -203,19 +182,18 @@
 </footer>
 
 <div class="sticky-cta">
-  <button class="btn btn-gold btn-block" type="button" data-book>Записаться онлайн</button>
+  <button class="btn btn-gold btn-block" type="button" data-book>Записаться</button>
 </div>
 
 <dialog class="modal" id="booking" aria-labelledby="booking-title">
   <div class="modal-inner">
     <button class="modal-close" type="button" aria-label="Закрыть" data-close><svg class="ico" viewBox="0 0 24 24"><use href="#i-close"/></svg></button>
-    <p class="kicker">Онлайн-запись</p>
-    <h2 id="booking-title">ГДЕ ВАМ УДОБНЕЕ ЗАПИСАТЬСЯ?</h2>
+    <h2 id="booking-title">Запись</h2>
     <p class="booking-branch" id="booking-branch-line" hidden></p>
-    <p class="modal-lead">Откроется чат. Филиал, услугу, день и время выберете там же, ничего заполнять на сайте не нужно.</p>
-    <a class="btn btn-wa btn-block btn-lg" id="book-wa" href="#" target="_blank" rel="noopener" data-chat><svg class="ico" viewBox="0 0 24 24"><use href="#i-whatsapp"/></svg> Записаться в WhatsApp</a>
-    <a class="btn btn-tg btn-block btn-lg" id="book-tg" href="#" target="_blank" rel="noopener" data-chat><svg class="ico" viewBox="0 0 24 24"><use href="#i-telegram"/></svg> Записаться в Telegram</a>
-    <p class="modal-note" id="channel-note">В Telegram нажмите «Начать», дальше бот предложит выбрать время кнопками.</p>
+    <p class="modal-lead">Выберите, где удобнее. Откроется чат, там же выберете филиал, услугу и время.</p>
+    <a class="btn btn-wa btn-block btn-lg" id="book-wa" href="#" target="_blank" rel="noopener" data-chat><svg class="ico" viewBox="0 0 24 24"><use href="#i-whatsapp"/></svg> WhatsApp</a>
+    <a class="btn btn-tg btn-block btn-lg" id="book-tg" href="#" target="_blank" rel="noopener" data-chat><svg class="ico" viewBox="0 0 24 24"><use href="#i-telegram"/></svg> Telegram</a>
+    <p class="modal-note" id="channel-note">В Telegram нажмите «Начать», дальше бот всё подскажет.</p>
   </div>
 </dialog>
 

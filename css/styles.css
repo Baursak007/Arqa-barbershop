@@ -52,13 +52,11 @@ button { font: inherit; }
 .ico { width: 1.25em; height: 1.25em; flex: none; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
 /* Фоновый слой, который плавно меняется при прокрутке (картинку ставит js/app.js) */
-.bg-fixed {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background-size: cover; background-position: center;
   opacity: 0; filter: blur(4px) grayscale(40%);
   transition: opacity .8s ease-in-out;
 }
-.bg-fixed.on { opacity: 0.16; }
 main, .site-footer { position: relative; z-index: 1; }
 
 /* ===== Кнопки ===== */
@@ -148,19 +146,12 @@ main, .site-footer { position: relative; z-index: 1; }
 .stats span { font-size: 12px; color: #a1a1aa; }
 
 .hero-card-wrap { position: relative; display: flex; justify-content: center; }
-.seal { position: absolute; top: -28px; left: -4px; width: 112px; height: 112px; z-index: 3; display: grid; place-items: center; pointer-events: none; }
-.seal svg:first-child { width: 100%; height: 100%; }
-.seal-crown { position: absolute; inset: 0; margin: auto; width: 26px; height: 26px; color: var(--gold); }
 .hero-card { width: 100%; max-width: 420px; padding: 10px; border-radius: 18px; background: var(--card); border: 1px solid var(--line-gold); box-shadow: 0 25px 50px rgba(0, 0, 0, .7); transition: transform .2s ease-out; }
 .hero-photo { position: relative; height: min(112vw, 480px); border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #1c1c1c, #0f0f0f); }
 .hero-photo img, .gallery-main img { width: 100%; height: 100%; object-fit: cover; }
 .fade-img { transition: opacity .6s cubic-bezier(.16, 1, .3, 1), transform .6s cubic-bezier(.16, 1, .3, 1); }
 .fade-img.out { opacity: 0; transform: scale(.96); }
 .photo-shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0, 0, 0, .9), rgba(0, 0, 0, .1) 55%, transparent); pointer-events: none; }
-.photo-label { position: absolute; left: 14px; right: 14px; bottom: 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 10px; background: rgba(0, 0, 0, .75); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid var(--line-gold); }
-.label-kicker { font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
-.label-title { font-size: 14px; font-weight: 600; margin-top: 2px; }
-.photo-label .ico { color: var(--gold); }
 
 @media (min-width: 980px) {
   .hero-inner { grid-template-columns: 7fr 5fr; gap: 56px; }
@@ -168,8 +159,7 @@ main, .site-footer { position: relative; z-index: 1; }
   .hero-actions { flex-direction: row; max-width: none; width: auto; }
   .stats { margin: 0; }
   .stats li { text-align: left; }
-  .seal { top: -34px; left: -40px; width: 150px; height: 150px; }
-}
+  }
 
 /* ===== Полоса преимуществ ===== */
 .strip { position: relative; z-index: 1; background: var(--dark); border-top: 1px solid rgba(212, 175, 55, .2); border-bottom: 1px solid rgba(212, 175, 55, .2); padding: 28px 0; }

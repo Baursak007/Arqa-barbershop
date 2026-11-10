@@ -14,7 +14,7 @@
   function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₸"; }
   function telHref(p) { return "tel:" + String(p).replace(/[^\d+]/g, ""); }
   function icon(name, cls) { return '<svg class="ico' + (cls ? " " + cls : "") + '" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-' + name + '"/></svg>'; }
-  var ICONS = { scissors: 1, crown: 1, razor: 1, towel: 1, child: 1, sparkle: 1, user: 1, bottle: 1, cup: 1 };
+  var ICONS = { scissors: 1, crown: 1, razor: 1, towel: 1, child: 1, sparkle: 1, user: 1, bottle: 1, cup: 1, calendar: 1, clock: 1 };
   function safeIcon(n) { return ICONS[n] ? n : "sparkle"; }
 
   /* Адрес картинки. В data.js можно указать id фото с Unsplash ("photo-...") или свой файл ("assets/work1.jpg").
@@ -122,7 +122,13 @@
   showGallery(0, true);
 
   /* ---------- Мастера ---------- */
-  $("#barber-grid").innerHTML = D.barbers.map(function (b) {
+  if (!D.barbers || !D.barbers.length) {
+    var bs = $("#barbers");
+    if (bs) bs.remove();
+    var bl = $(".nav a[href='#barbers']");
+    if (bl) bl.remove();
+  }
+  if ($("#barber-grid")) $("#barber-grid").innerHTML = (D.barbers || []).map(function (b) {
     return (
       '<article class="card barber">' +
         "<div><div class=\"barber-photo\"><img src=\"" + esc(imgUrl(b.img, 700)) + '" alt="' + esc(b.name) + '" width="700" height="600" loading="lazy" decoding="async">' +
@@ -258,40 +264,21 @@
     if (e.target.closest("[data-chat]")) dialog.close(); // чат открылся в новой вкладке, окно закрываем
   });
 
-  /* ---------- Фото в первом экране и фон меняются при прокрутке ---------- */
+  /* ---------- Фото первого экрана и подсветка пункта меню ---------- */
   var heroImg = $("#hero-img");
-  var heroLabel = $("#hero-label");
-  var bgEl = $("#bg-fixed");
   var heroSection = $("#hero");
   var heroFirst = imgUrl(heroSection.getAttribute("data-bg"), 800);
-  if (heroFirst) heroImg.src = heroFirst;
-
-  var lastBg = "";
-  function swapTo(sec) {
-    var ref = sec.getAttribute("data-bg");
-    var title = sec.getAttribute("data-bg-title") || "";
-    if (ref === lastBg) return;
-    lastBg = ref;
-    var big = imgUrl(ref, 1200), small = imgUrl(ref, 800);
-    if (!big) return;
-    bgEl.classList.remove("on");
-    setTimeout(function () { bgEl.style.backgroundImage = 'url("' + big + '")'; bgEl.classList.add("on"); }, 250);
-    heroImg.classList.add("out");
-    setTimeout(function () {
-      heroImg.style.visibility = "visible";
-      heroImg.src = small;
-      heroLabel.textContent = title;
-      heroImg.classList.remove("out");
-    }, 320);
-    var id = sec.getAttribute("id");
-    $$(".nav a[href^='#']").forEach(function (a) { a.classList.toggle("on", a.getAttribute("href") === "#" + id); });
-  }
+  if (heroFirst) { heroImg.style.visibility = "visible"; heroImg.src = heroFirst; }
 
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) { if (en.isIntersecting) swapTo(en.target); });
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var id = en.target.getAttribute("id");
+        $$(".nav a[href^='#']").forEach(function (a) { a.classList.toggle("on", a.getAttribute("href") === "#" + id); });
+      });
     }, { rootMargin: "-15% 0px -35% 0px", threshold: 0.15 });
-    $$("section[data-bg]").forEach(function (sec) { io.observe(sec); });
+    $$("main section[id]").forEach(function (sec) { io.observe(sec); });
 
     // нижняя кнопка записи на телефоне появляется, когда первый экран ушёл вверх
     var cta = $(".sticky-cta");
